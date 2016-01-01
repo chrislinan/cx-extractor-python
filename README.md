@@ -22,6 +22,10 @@ print(s)
 ##4. 测试结果
 本人使用了74个网易新闻的页面进行测试，抽取正文的准确率达到95%以上。文件中的Rawhtml文件夹下是原始的网页文件，Text文件夹下是对应每一个原始网页抽取出的正文。
 例如对如下的页面抽取正文：
+![image](https://github.com/chrislinan/cx_extractor_python/blob/master/img/raw.png)
 
 得到的结果如下所示，可以看出，原始网页上的标签和js脚本都被剔除，并且可以正确的提取出新闻网页的正文。
+
+![image](https://github.com/chrislinan/cx_extractor_python/blob/master/img/text.png)
+
 
