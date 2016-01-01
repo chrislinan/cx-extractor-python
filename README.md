@@ -7,10 +7,7 @@
 ##2. 原理
   
 ##3. 接口及其使用方法
-<<<<<<< HEAD
-使用时先导入cx_extractor_Python类，新建cx_extractor_Python类的对象。
 
-=======
 使用时导入cx_extractor_python类，并且新建cx_extractor_python类的对象。获取html页面的方式有两种，第一种是从url中获取网页，使用getHtml方法；第二种是从已经有的网页文件中读取网页，使用readHtml方法。读取网页之后，调用filter_tags方法对网页进行预处理，这个方法可以剔除网页中的html标签和js脚本等。网页预处理之后，调用getText方法就可以得到网页的正文。示例代码如下所示：
 
 ```
@@ -22,7 +19,6 @@ content = cx.filter_tags(test_html)
 s = cx.getText(content)
 print(s)
 ```
->>>>>>> origin/master
 ##4. 测试结果
 本人使用了74个网易新闻的页面进行测试，抽取正文的准确率达到95%以上。文件中的Rawhtml文件夹下是原始的网页文件，Text文件夹下是对应每一个原始网页抽取出的正文。
 例如对如下的页面抽取正文：
