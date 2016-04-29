@@ -19,7 +19,7 @@ content = cx.filter_tags(test_html)
 s = cx.getText(content)
 print(s)
 ```
-##4. 测试结果
+##4. 测试结果 
 本人使用了74个网易新闻的页面进行测试，抽取正文的准确率达到95%以上。文件中的Rawhtml文件夹下是原始的网页文件，Text文件夹下是对应每一个原始网页抽取出的正文。（为什么用这74个网页呢，因为我做本科毕设的时候用网络爬虫抓新闻网页并且对新闻分类，下载了很多网页，因为下载的网页太多，删掉了以前抓取的网页，最后一次抓取的就是这74个网页，我也是在做毕设的时候接触到了这个网页正文抽取的算法，那时候我用的是Java版本的）
 例如对如下的页面抽取正文：
 ![image](https://github.com/chrislinan/cx_extractor_python/blob/master/img/raw.png)
