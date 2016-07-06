@@ -1,4 +1,4 @@
-﻿import urllib
+﻿import urllib.request
 import re
 class cx_extractor_Python:
     """cx_extractor implemented in Python"""
