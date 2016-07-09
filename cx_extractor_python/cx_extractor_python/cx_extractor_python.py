@@ -70,7 +70,7 @@ class cx_extractor_Python:
     def getHtml(self, url):
         page = urllib.request.urlopen(url)
         html = page.read()
-        return html.decode("utf-8")
+        return html.decode("utf-8",'ignore')
 
     def readHtml(self, path):
         page = open(path, encoding='GB18030')
