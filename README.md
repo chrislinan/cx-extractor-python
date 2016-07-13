@@ -22,7 +22,7 @@
 一个行块block，去掉其中的所有空白符（ \n,\r,\t 等）后的字符总数称为该行块的长度。
 - 行块分布函数：
 如果以content的每行为轴，那么这篇网页总共有LinesNum(Ctext)-K个block，做出以[1, LinesNum(Ctext)-K]为横轴，以其各自的行块长度为纵轴的分布函数。
-对http://www.gov.cn/ldhd/2009-11/08/content_1459564.htm这个网页求出的行块分布函数曲线如下图所示，该网页的正文区域为145行至182行。
+对 http://www.gov.cn/ldhd/2009-11/08/content_1459564.htm 这个网页求出的行块分布函数曲线如下图所示，该网页的正文区域为145行至182行。
 
 ![image] (https://github.com/chrislinan/cx_extractor_python/blob/master/img/2.png)
 
