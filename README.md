@@ -13,7 +13,7 @@
 
 因此，网页中符合上述三个条件的行被认为是正文所在的行。由此我们可以得出这样的结论：网页的正文区域是文字密度较大的区域。但是这个结论也有局限性，例如网页中出现的大篇幅文字导航信息，其文字密度较高但不是网页正文。如下图所示：
   
-![image] (https://github.com/chrislinan/cx_extractor_python/blob/master/img/1.png)
+![image](/img/1.png)
 
 因此，我们还需要考虑文字行块的长度，因为导航的长度较短而正文行的长度较长。在处理网页时需要先将网页中的所有HTML标签去除，保留空白行和文字，留下的文本记作content。求解行块分布函数的步骤如下：
 - 行块：
@@ -24,7 +24,7 @@
 如果以content的每行为轴，那么这篇网页总共有LinesNum(content)-K个block，做出以[1, LinesNum(content)-K]为横轴，以其各自的行块长度为纵轴的分布函数。
 对 http://www.gov.cn/ldhd/2009-11/08/content_1459564.htm 这个网页求出的行块分布函数曲线如下图所示，该网页的正文区域为145行至182行。
 
-![image] (https://github.com/chrislinan/cx_extractor_python/blob/master/img/2.png)
+![image](/img/2.png)
 
 由上图可知，正确的文本区域全都是分布函数图上含有最值且连续的一个区域，这个区域往往含有一个骤升点和一个骤降点。因此，网页正文抽取问题转化为了求行块分布函数上的骤升点和骤降点两个边界点，这两个边界点所含的区域包含了当前网页的行块长度最大值并且是连续的。
 求出正文区域所在的起始行块号x\_start和终止行块号x\_end，x是行号，Y(x)是编号为x的行块的长度，Y(x)需要满足下列条件：
@@ -56,10 +56,10 @@ print(s)
 ## 4. 测试结果 
 本人使用了74个网易新闻的页面进行测试，抽取正文的准确率达到95%以上。文件中的Rawhtml文件夹下是原始的网页文件，Text文件夹下是对应每一个原始网页抽取出的正文。（为什么用这74个网页呢，因为我做本科毕设的时候用网络爬虫抓新闻网页并且对新闻分类，下载了很多网页，因为下载的网页太多，删掉了以前抓取的网页，最后一次抓取的就是这74个网页，我也是在做毕设的时候接触到了这个网页正文抽取的算法，那时候我用的是Java版本的）
 例如对如下的页面抽取正文：
-![image](https://github.com/chrislinan/cx_extractor_python/blob/master/img/raw.png)
+![image](/img/raw.png)
 
 得到的结果如下所示，可以看出，原始网页上的标签和js脚本都被剔除，并且可以正确的提取出新闻网页的正文。
 
-![image](https://github.com/chrislinan/cx_extractor_python/blob/master/img/text.png)
+![image](/img/text.png)
 
 
