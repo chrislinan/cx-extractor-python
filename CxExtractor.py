@@ -1,4 +1,4 @@
-﻿import urllib.request
+﻿import requests
 import re
 
 
@@ -10,8 +10,7 @@ class CxExtractor:
     __indexDistribution = []
     # __blocksWidth = 3
 
-
-    def __init__(self,threshold = 86, blocksWidth = 3):
+    def __init__(self, threshold=86, blocksWidth=3):
         self.__blocksWidth = blocksWidth
         self.__threshold = threshold
 
@@ -32,7 +31,7 @@ class CxExtractor:
         end = -1
         boolstart = False
         boolend = False
-        for i in range(len(self.__indexDistribution)-1):
+        for i in range(len(self.__indexDistribution) - 1):
             if(self.__indexDistribution[i] > self.__threshold and (not boolstart)):
                 if (self.__indexDistribution[i + 1] != 0 or self.__indexDistribution[i + 2] != 0 or self.__indexDistribution[i + 3] != 0):
                     boolstart = True
@@ -44,10 +43,10 @@ class CxExtractor:
                     boolend = True
             tmp = []
             if(boolend):
-                for ii in range(start, end+1):
+                for ii in range(start, end + 1):
                     if(len(lines[ii]) < 5):
                         continue
-                    tmp.append(lines[ii]+"\n")
+                    tmp.append(lines[ii] + "\n")
                 str = "".join(list(tmp))
                 if ("Copyright" in str or "版权所有" in str):
                     continue
@@ -57,11 +56,11 @@ class CxExtractor:
         return result
 
     def replaceCharEntity(self, htmlstr):
-        CHAR_ENTITIES={'nbsp': ' ', '160': ' ',
-                    'lt': '<', '60': '<',
-                    'gt': '>', '62': '>',
-                    'amp': '&', '38': '&',
-                    'quot':'"','34':'"',}   
+        CHAR_ENTITIES = {'nbsp': ' ', '160': ' ',
+                         'lt': '<', '60': '<',
+                         'gt': '>', '62': '>',
+                         'amp': '&', '38': '&',
+                         'quot': '"', '34': '"', }
         re_charEntity = re.compile(r'&#?(?P<name>\w+);')
         sz = re_charEntity.search(htmlstr)
         while sz:
@@ -71,18 +70,19 @@ class CxExtractor:
                 htmlstr = re_charEntity.sub(CHAR_ENTITIES[key], htmlstr, 1)
                 sz = re_charEntity.search(htmlstr)
             except KeyError:
-                #以空串代替
+                # 以空串代替
                 htmlstr = re_charEntity.sub('', htmlstr, 1)
                 sz = re_charEntity.search(htmlstr)
         return htmlstr
 
     def getHtml(self, url):
-        page = urllib.request.urlopen(url)
-        html = page.read()
-        return html.decode("utf-8")
+        response = requests.get(url)
+        coding = response.encoding
+        page = response.content
+        return page.decode(coding)
 
-    def readHtml(self, path):
-        page = open(path, encoding='GB18030')
+    def readHtml(self, path, coding):
+        page = open(path, encoding=coding)
         lines = page.readlines()
         s = ''
         for line in lines:
@@ -93,9 +93,12 @@ class CxExtractor:
     def filter_tags(self, htmlstr):
         re_nav = re.compile('<nav.+</nav>')
         re_cdata = re.compile('//<!\[CDATA\[.*//\]\]>', re.DOTALL)
-        re_script = re.compile('<\s*script[^>]*>.*?<\s*/\s*script\s*>', re.DOTALL | re.I)
-        re_style = re.compile('<\s*style[^>]*>.*?<\s*/\s*style\s*>', re.DOTALL | re.I)
-        re_textarea = re.compile('<\s*textarea[^>]*>.*?<\s*/\s*textarea\s*>', re.DOTALL | re.I)
+        re_script = re.compile(
+            '<\s*script[^>]*>.*?<\s*/\s*script\s*>', re.DOTALL | re.I)
+        re_style = re.compile(
+            '<\s*style[^>]*>.*?<\s*/\s*style\s*>', re.DOTALL | re.I)
+        re_textarea = re.compile(
+            '<\s*textarea[^>]*>.*?<\s*/\s*textarea\s*>', re.DOTALL | re.I)
         re_br = re.compile('<br\s*?/?>')
         re_h = re.compile('</?\w+.*?>', re.DOTALL)
         re_comment = re.compile('<!--.*?-->', re.DOTALL)
@@ -113,4 +116,3 @@ class CxExtractor:
         s = re_space.sub(' ', s)
         s = self.replaceCharEntity(s)
         return s
-
