@@ -1,6 +1,6 @@
-from cx_extractor_Python import cx_extractor_Python
-cx = cx_extractor_Python()
-html = cx.getHtml('http://edition.cnn.com/2016/07/01/asia/taiwan-fires-missile-on-china/index.html')
+from CxExtractor import CxExtractor
+cx = CxExtractor(threshold = 186)
+html = cx.getHtml("http://www.bbc.com/news/world-europe-40885324")
 content = cx.filter_tags(html)
 s = cx.getText(content)
 print(s)

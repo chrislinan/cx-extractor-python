@@ -2,16 +2,25 @@
 import re
 
 
-class cx_extractor_Python:
-    """cx_extractor implemented in Python"""
+class CxExtractor:
+    """cx-extractor implemented in Python"""
 
     __text = []
-    __threshold = 86
+    # __threshold = 186
     __indexDistribution = []
-    __blocksWidth = 3
+    # __blocksWidth = 3
+
+
+    def __init__(self,threshold = 86, blocksWidth = 3):
+        self.__blocksWidth = blocksWidth
+        self.__threshold = threshold
 
     def getText(self, content):
         lines = content.split('\n')
+        for i in range(len(lines)):
+            # lines[i] = lines[i].replace("\\n", "")
+            if lines[i] == ' ' or lines[i] == '\n':
+                lines[i] = ''
         self.__indexDistribution.clear()
         for i in range(0, len(lines) - self.__blocksWidth):
             wordsNum = 0
@@ -82,6 +91,7 @@ class cx_extractor_Python:
         return s
 
     def filter_tags(self, htmlstr):
+        re_nav = re.compile('<nav.+</nav>')
         re_cdata = re.compile('//<!\[CDATA\[.*//\]\]>', re.DOTALL)
         re_script = re.compile('<\s*script[^>]*>.*?<\s*/\s*script\s*>', re.DOTALL | re.I)
         re_style = re.compile('<\s*style[^>]*>.*?<\s*/\s*style\s*>', re.DOTALL | re.I)
@@ -91,6 +101,7 @@ class cx_extractor_Python:
         re_comment = re.compile('<!--.*?-->', re.DOTALL)
         re_space = re.compile(' +')
         s = re_cdata.sub('', htmlstr)
+        s = re_nav.sub('', s)
         s = re_script.sub('', s)
         s = re_style.sub('', s)
         s = re_textarea.sub('', s)
