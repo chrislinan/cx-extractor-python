@@ -15,6 +15,8 @@ class CxExtractor:
         self.__threshold = threshold
 
     def getText(self, content):
+        if self.__text:
+            self.__text = []
         lines = content.split('\n')
         for i in range(len(lines)):
             # lines[i] = lines[i].replace("\\n", "")
