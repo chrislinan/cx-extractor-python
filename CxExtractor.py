@@ -1,5 +1,7 @@
-﻿import requests
 import re
+import chardet
+
+import requests
 
 
 class CxExtractor:
@@ -79,9 +81,9 @@ class CxExtractor:
 
     def getHtml(self, url):
         response = requests.get(url)
-        coding = response.encoding
-        page = response.content
-        return page.decode(coding)
+        encode_info = chardet.detect(response.content)
+        response.encoding = encode_info['encoding']
+        return response.text
 
     def readHtml(self, path, coding):
         page = open(path, encoding=coding)
