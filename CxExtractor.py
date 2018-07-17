@@ -21,7 +21,6 @@ class CxExtractor:
             self.__text = []
         lines = content.split('\n')
         for i in range(len(lines)):
-            # lines[i] = lines[i].replace("\\n", "")
             if lines[i] == ' ' or lines[i] == '\n':
                 lines[i] = ''
         self.__indexDistribution.clear()
@@ -35,7 +34,10 @@ class CxExtractor:
         end = -1
         boolstart = False
         boolend = False
-        for i in range(len(self.__indexDistribution) - 1):
+        if len(self.__indexDistribution) < 3:
+            print('This page has no content to extract')
+            return 
+        for i in range(len(self.__indexDistribution) - 3):
             if(self.__indexDistribution[i] > self.__threshold and (not boolstart)):
                 if (self.__indexDistribution[i + 1] != 0 or self.__indexDistribution[i + 2] != 0 or self.__indexDistribution[i + 3] != 0):
                     boolstart = True
@@ -57,7 +59,11 @@ class CxExtractor:
                 self.__text.append(str)
                 boolstart = boolend = False
         result = "".join(list(self.__text))
-        return result
+        if result == '':
+            print('This page has no content to extract')
+            return None
+        else:
+            return result
 
     def replaceCharEntity(self, htmlstr):
         CHAR_ENTITIES = {'nbsp': ' ', '160': ' ',
@@ -95,6 +101,7 @@ class CxExtractor:
         return s
 
     def filter_tags(self, htmlstr):
+        re_doctype = re.compile('<![DOCTYPE|doctype].*>')
         re_nav = re.compile('<nav.+</nav>')
         re_cdata = re.compile('//<!\[CDATA\[.*//\]\]>', re.DOTALL)
         re_script = re.compile(
@@ -108,6 +115,7 @@ class CxExtractor:
         re_comment = re.compile('<!--.*?-->', re.DOTALL)
         re_space = re.compile(' +')
         s = re_cdata.sub('', htmlstr)
+        s = re_doctype.sub('',s)
         s = re_nav.sub('', s)
         s = re_script.sub('', s)
         s = re_style.sub('', s)
@@ -116,7 +124,6 @@ class CxExtractor:
         s = re_h.sub('', s)
         s = re_comment.sub('', s)
         s = re.sub('\\t', '', s)
-        # s = re.sub(' ', '', s)
         s = re_space.sub(' ', s)
         s = self.replaceCharEntity(s)
         return s

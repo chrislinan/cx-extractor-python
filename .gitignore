@@ -44,3 +44,4 @@ Temporary Items
 
 *.pyc
 .vscode
+test.py
