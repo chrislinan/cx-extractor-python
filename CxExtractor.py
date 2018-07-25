@@ -8,9 +8,7 @@ class CxExtractor:
     """cx-extractor implemented in Python"""
 
     __text = []
-    # __threshold = 186
     __indexDistribution = []
-    # __blocksWidth = 3
 
     def __init__(self, threshold=86, blocksWidth=3):
         self.__blocksWidth = blocksWidth
@@ -35,8 +33,7 @@ class CxExtractor:
         boolstart = False
         boolend = False
         if len(self.__indexDistribution) < 3:
-            print('This page has no content to extract')
-            return 
+            return 'This page has no content to extract'
         for i in range(len(self.__indexDistribution) - 3):
             if(self.__indexDistribution[i] > self.__threshold and (not boolstart)):
                 if (self.__indexDistribution[i + 1] != 0 or self.__indexDistribution[i + 2] != 0 or self.__indexDistribution[i + 3] != 0):
@@ -60,8 +57,7 @@ class CxExtractor:
                 boolstart = boolend = False
         result = "".join(list(self.__text))
         if result == '':
-            print('This page has no content to extract')
-            return None
+            return 'This page has no content to extract'
         else:
             return result
 
@@ -80,7 +76,6 @@ class CxExtractor:
                 htmlstr = re_charEntity.sub(CHAR_ENTITIES[key], htmlstr, 1)
                 sz = re_charEntity.search(htmlstr)
             except KeyError:
-                # 以空串代替
                 htmlstr = re_charEntity.sub('', htmlstr, 1)
                 sz = re_charEntity.search(htmlstr)
         return htmlstr
