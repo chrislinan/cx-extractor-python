@@ -1,6 +1,60 @@
 
-# 网页正文抽取工具
+# Web Page Content Extraction Tool
 
+
+[ChineseVersion](#ChineseVersion)
+## 1. Purpose
+Used to extract text from the web page, this tool is appropriate for the web page which contains lots of text. This tool support both English and Chinese web pages.
+## 2. How to use
+First you need to initialize a 'cx' object:
+
+```
+from crawler.cx_extractor_Python import  cx_extractor_Python
+cx = cx_extractor_Python()
+```
+
+For extracting text from a web page, You can read a HTML file from your disk:
+
+```
+html = cx.readHtml("E:\\Documents\\123.html")
+```
+
+or get the HTML from Internet:
+
+```
+html = cx.getHtml('http://news.163.com/16/0101/10/BC84MRHS00014AED.html')
+```
+
+Then you need to filter the tags in HTML and extract the text:
+```
+content = cx.filter_tags(html)
+text = cx.getText(content)
+print(text)
+```
+
+Finally, you can get the text in this HTML.
+Notice:The constructor has two parameters that you may need to adjust.
+> threshold: The length of lines in the web page should exceed the threshold so   that the lines could be recognized as useful. 
+
+> blocksWidth: If the text rows in the web page are sparse, you should set blocksWidth larger, the default value is 3.
+
+## 3. Demo
+If you have a news web page like this:
+![image](/img/html-en.png)
+
+you can get the text by using this tool like this:
+
+![image](/img/text-en.png)
+
+
+
+_______________________________________
+
+
+
+
+
+# <a name='ChineseVersion'>网页正文抽取工具</a>
 
 ![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg)
 
