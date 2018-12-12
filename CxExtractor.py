@@ -19,8 +19,7 @@ class CxExtractor:
             self.__text = []
         lines = content.split('\n')
         for i in range(len(lines)):
-            if lines[i] == ' ' or lines[i] == '\n':
-                lines[i] = ''
+            lines[i] = re.sub("\r|\n|\\s", "",lines[i])
         self.__indexDistribution.clear()
         for i in range(0, len(lines) - self.__blocksWidth):
             wordsNum = 0
