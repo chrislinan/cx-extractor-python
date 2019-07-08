@@ -85,7 +85,7 @@ class CxExtractor:
     async def getHtml(self, url: str) -> str:
         response = requests.get(url)
         encode_info = chardet.detect(response.content)
-        response.encoding = encode_info['encoding']
+        response.encoding = encode_info['encoding'] if encode_info['confidence'] > 0.5 else 'utf-8'
         return response.text
 
     async def readHtml(self, path: str, coding: str) -> str:
