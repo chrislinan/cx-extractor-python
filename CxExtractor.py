@@ -1,6 +1,9 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import re
 import chardet
-
+import asyncio
 import requests
 
 
@@ -10,11 +13,11 @@ class CxExtractor:
     __text = []
     __indexDistribution = []
 
-    def __init__(self, threshold=86, blocksWidth=3):
+    def __init__(self, threshold=86, blocksWidth=3) -> None:
         self.__blocksWidth = blocksWidth
         self.__threshold = threshold
 
-    def getText(self, content):
+    async def getText(self, content: str) -> str:
         if self.__text:
             self.__text = []
         lines = content.split('\n')
@@ -60,7 +63,7 @@ class CxExtractor:
         else:
             return result
 
-    def replaceCharEntity(self, htmlstr):
+    async def replaceCharEntity(self, htmlstr: str) -> str:
         CHAR_ENTITIES = {'nbsp': ' ', '160': ' ',
                          'lt': '<', '60': '<',
                          'gt': '>', '62': '>',
@@ -79,13 +82,13 @@ class CxExtractor:
                 sz = re_charEntity.search(htmlstr)
         return htmlstr
 
-    def getHtml(self, url):
+    async def getHtml(self, url: str) -> str:
         response = requests.get(url)
         encode_info = chardet.detect(response.content)
         response.encoding = encode_info['encoding']
         return response.text
 
-    def readHtml(self, path, coding):
+    async def readHtml(self, path: str, coding: str) -> str:
         page = open(path, encoding=coding)
         lines = page.readlines()
         s = ''
@@ -94,7 +97,7 @@ class CxExtractor:
         page.close()
         return s
 
-    def filter_tags(self, htmlstr):
+    async def filter_tags(self, htmlstr: str) -> str:
         re_doctype = re.compile('<![DOCTYPE|doctype].*>')
         re_nav = re.compile('<nav.+</nav>')
         re_cdata = re.compile('//<!\[CDATA\[.*//\]\]>', re.DOTALL)
@@ -119,5 +122,5 @@ class CxExtractor:
         s = re_comment.sub('', s)
         s = re.sub('\\t', '', s)
         s = re_space.sub(' ', s)
-        s = self.replaceCharEntity(s)
+        s = await self.replaceCharEntity(s)
         return s
